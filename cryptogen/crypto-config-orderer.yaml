@@ -1,0 +1,9 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: ap.com
+    EnableNodeOUs: true
+    Template:
+      Start: 1
+      Count: 1
+      SANS:
+        - localhost
