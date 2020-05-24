@@ -1,7 +1,6 @@
 PeerOrgs:
   - Name: Org2
     Domain: org2.ap.com
-    EnableNodeOUs: true
     Template:
       Count: 1
       SANS:

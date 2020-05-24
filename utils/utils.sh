@@ -8,7 +8,7 @@ function switchIdentity() {
     PORT=$2
 
     export CORE_PEER_TLS_ENABLED=true
-    export ORDERER_CA=${PWD}/crypto-material/ordererOrganizations/ap.com/orderers/orderer1.ap.com/msp/tlscacerts/tlsca.ap.com-cert.pem
+    export ORDERER_CA=${PWD}/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/msp/tlscacerts/tlsca.ap.com-cert.pem
     export CORE_PEER_LOCALMSPID=${ORG}MSP
     export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/peers/peer0.${LOWER_MSP}.ap.com/tls/ca.crt
     export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/users/Admin@${LOWER_MSP}.ap.com/msp

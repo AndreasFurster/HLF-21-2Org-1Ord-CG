@@ -15,7 +15,7 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
         OrdererEndpoints:
-            - orderer1.ap.com:7050
+            - orderer0.ap.com:7050
 
     - &Org1
         Name: Org1
@@ -24,16 +24,16 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+                Rule: "OR('Org1MSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+                Rule: "OR('Org1MSP.member')"
             Admins:
                 Type: Signature
                 Rule: "OR('Org1MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org1MSP.peer')"
+                Rule: "OR('Org1MSP.member')"
         AnchorPeers:
             - Host: peer0.org1.ap.com
               Port: 7051
@@ -45,16 +45,16 @@ Organizations:
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.peer', 'Org2MSP.client')"
+                Rule: "OR('Org2MSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin', 'Org2MSP.client')"
+                Rule: "OR('Org2MSP.member')"
             Admins:
                 Type: Signature
                 Rule: "OR('Org2MSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org2MSP.peer')"
+                Rule: "OR('Org2MSP.member')"
         AnchorPeers:
             - Host: peer0.org2.ap.com
               Port: 8051
@@ -92,10 +92,10 @@ Orderer: &OrdererDefaults
     OrdererType: etcdraft
     EtcdRaft:
         Consenters:
-        - Host: orderer1.ap.com
+        - Host: orderer0.ap.com
           Port: 7050
-          ClientTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer1.ap.com/tls/server.crt
-          ServerTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer1.ap.com/tls/server.crt
+          ClientTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
+          ServerTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
