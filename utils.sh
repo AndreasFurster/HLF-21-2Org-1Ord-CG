@@ -16,6 +16,7 @@ function switchIdentity() {
 }
 
 function echoCurrentFabricEnvironment() {
+    echo -e "Current environment variables and identities:"
     echo -e "${YELLOW}CORE_PEER_TLS_ENABLED=${CORE_PEER_TLS_ENABLED}"
     echo -e "ORDERER_CA=${ORDERER_CA}"
     echo -e "CORE_PEER_LOCALMSPID=${CORE_PEER_LOCALMSPID}"

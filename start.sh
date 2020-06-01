@@ -2,7 +2,7 @@
 
 export FABRIC_CFG_PATH=${PWD}/config
 
-. ./utils/utils.sh
+. ./utils.sh
 printSeparator "Generate crypto-material for Org1"
 cryptogen generate --config=./cryptogen/crypto-config-org1.yaml --output="crypto-material"
 printSeparator "Generate crypto-material for Org2"
@@ -10,16 +10,16 @@ cryptogen generate --config=./cryptogen/crypto-config-org2.yaml --output="crypto
 printSeparator "Generate crypto-material for Orderer"
 cryptogen generate --config=./cryptogen/crypto-config-orderer.yaml --output="crypto-material"
 printSeparator "Create Genesis-Block"
-configtxgen -profile TwoOrgsOrdererGenesis -configPath ${PWD}/config -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
+configtxgen -profile ApNetworkProfile -configPath ${PWD}/config -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
 printSeparator "Start Network within Docker Containers"
 docker-compose -f ./docker/docker-compose-orderer.yaml up -d
 docker-compose -f ./docker/docker-compose-org1.yaml -f ./docker/docker-compose-org2.yaml up -d
 printSeparator "Create Channel Transaction"
-configtxgen -profile TwoOrgsChannel -configPath ${PWD}/config -outputCreateChannelTx ./channel-artifacts/apchannel.tx -channelID apchannel && sleep 3
+configtxgen -profile ApChannelProfile -configPath ${PWD}/config -outputCreateChannelTx ./channel-artifacts/apchannel.tx -channelID apchannel && sleep 3
 printSeparator "Create Anchor Peers Update for Org 1"
-configtxgen -profile TwoOrgsChannel -configPath ${PWD}/config -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID apchannel -asOrg Org1
+configtxgen -profile ApChannelProfile -configPath ${PWD}/config -outputAnchorPeersUpdate ./channel-artifacts/Org1MSPanchors.tx -channelID apchannel -asOrg Org1
 printSeparator "Create Anchor Peers Update for Org 2"
-configtxgen -profile TwoOrgsChannel -configPath ${PWD}/config -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID apchannel -asOrg Org2
+configtxgen -profile ApChannelProfile -configPath ${PWD}/config -outputAnchorPeersUpdate ./channel-artifacts/Org2MSPanchors.tx -channelID apchannel -asOrg Org2
 printSeparator "Wait 3 seconds for network to come up" && sleep 3
 printSeparator "Set Identity to Org1"
 switchIdentity "Org1" 7051 && echoCurrentFabricEnvironment

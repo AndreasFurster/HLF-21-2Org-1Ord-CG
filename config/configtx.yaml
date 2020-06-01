@@ -131,7 +131,7 @@ Channel: &ChannelDefaults
         <<: *ChannelCapabilities
 
 Profiles:
-    TwoOrgsOrdererGenesis:
+    ApNetworkProfile:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -140,12 +140,12 @@ Profiles:
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
-            SampleConsortium:
+            ApConsortium:
                 Organizations:
                     - *Org1
                     - *Org2
-    TwoOrgsChannel:
-        Consortium: SampleConsortium
+    ApChannelProfile:
+        Consortium: ApConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
