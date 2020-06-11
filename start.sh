@@ -4,11 +4,11 @@ export FABRIC_CFG_PATH=${PWD}/config
 
 . ./utils.sh
 printSeparator "Generate crypto-material for Org1"
-cryptogen generate --config=./cryptogen/crypto-config-org1.yaml --output="crypto-material"
+cryptogen generate --config=./cryptogen-input/crypto-config-org1.yaml --output="crypto-material"
 printSeparator "Generate crypto-material for Org2"
-cryptogen generate --config=./cryptogen/crypto-config-org2.yaml --output="crypto-material"
+cryptogen generate --config=./cryptogen-input/crypto-config-org2.yaml --output="crypto-material"
 printSeparator "Generate crypto-material for Orderer"
-cryptogen generate --config=./cryptogen/crypto-config-orderer.yaml --output="crypto-material"
+cryptogen generate --config=./cryptogen-input/crypto-config-orderer.yaml --output="crypto-material"
 printSeparator "Create Genesis-Block"
 configtxgen -profile ApNetworkProfile -configPath ${PWD}/config -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
 printSeparator "Start Network within Docker Containers"
