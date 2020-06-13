@@ -12,8 +12,7 @@ cryptogen generate --config=./cryptogen-input/crypto-config-orderer.yaml --outpu
 printSeparator "Create Genesis-Block"
 configtxgen -profile ApNetworkProfile -configPath ${PWD}/config -channelID system-channel -outputBlock ./system-genesis-block/genesis.block
 printSeparator "Start Network within Docker Containers"
-docker-compose -f ./docker/docker-compose-orderer.yaml up -d
-docker-compose -f ./docker/docker-compose-org1.yaml -f ./docker/docker-compose-org2.yaml up -d
+docker-compose -f ./docker/docker-compose-orderer.yaml -f ./docker/docker-compose-org1.yaml -f ./docker/docker-compose-org2.yaml up -d
 printSeparator "Create Channel Transaction"
 configtxgen -profile ApChannelProfile -configPath ${PWD}/config -outputCreateChannelTx ./channel-artifacts/apchannel.tx -channelID apchannel && sleep 3
 printSeparator "Create Anchor Peers Update for Org 1"
