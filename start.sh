@@ -35,3 +35,14 @@ peer channel join -b ./channel-artifacts/apchannel.block
 printSeparator "Update Anchor Peers as Org2"
 peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com -c apchannel -f ./channel-artifacts/Org2MSPanchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
 printSeparator "Done!"
+
+printSeparator "Set Identity to Org1"
+switchIdentity "Org1" 7051 && echoCurrentFabricEnvironment
+
+printSeparator "Package chaincode"
+peer lifecycle chaincode package mycc.tar.gz --path ./chaincode/ --lang node --label mycc_1
+mv ./mycc.tar.gz ./chaincode_packages
+
+# WIP:
+peer lifecycle chaincode install ./chaincode_builds/mycc.tar.gz
+
