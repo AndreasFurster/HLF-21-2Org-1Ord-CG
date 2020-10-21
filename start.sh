@@ -27,11 +27,11 @@ peer channel create -o localhost:7050 -c apchannel --ordererTLSHostnameOverride 
 printSeparator "Join Org1 to channel"
 peer channel join -b ./channel-artifacts/apchannel.block && sleep 1
 printSeparator "Update Anchor Peers as Org1"
-peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com -c apchannel -f ./channel-artifacts/ORG1MSPanchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
+peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com -c apchannel -f ./channel-artifacts/Org1MSPanchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
 printSeparator "Set Identity to Org2"
 switchIdentity "Org2" 8051 && echoCurrentFabricEnvironment && sleep 1
 printSeparator "Join Org2 to channel"
 peer channel join -b ./channel-artifacts/apchannel.block
 printSeparator "Update Anchor Peers as Org2"
-peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com -c apchannel -f ./channel-artifacts/ORG2MSPanchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
+peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com -c apchannel -f ./channel-artifacts/Org2MSPanchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
 printSeparator "Done!"
