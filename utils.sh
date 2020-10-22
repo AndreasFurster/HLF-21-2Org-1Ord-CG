@@ -27,8 +27,5 @@ function echoCurrentFabricEnvironment() {
 
 function printSeparator() {
     echo -e "${GREEN}"
-    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' +
-    echo -e "$1"
-    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' +
-    echo -e "\033[0m"
+    echo -e "▶ $1 \033[0m"
 }
