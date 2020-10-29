@@ -13,6 +13,7 @@ services:
     container_name: peer0.org1.ap.com
     image: hyperledger/fabric-peer:$IMAGE_TAG
     volumes:
+      - /var/run/:/host/var/run/
       - ../crypto-material/peerOrganizations/org1.ap.com/peers/peer0.org1.ap.com/msp:/etc/hyperledger/fabric/msp
       - ../crypto-material/peerOrganizations/org1.ap.com/peers/peer0.org1.ap.com/tls:/etc/hyperledger/fabric/tls
       - peer0.org1.ap.com:/var/hyperledger/production

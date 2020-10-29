@@ -54,9 +54,39 @@ peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.c
 printSeparator "Set Identity to Org1"
 switchIdentity "Org1" 7051 && echoCurrentFabricEnvironment
 
+printSeparator "Install node modules for chaincode"
+cd ./chaincode/
+npm install
+cd ../
+
 printSeparator "Package chaincode"
 peer lifecycle chaincode package mycc.tar.gz --path ./chaincode/ --lang node --label mycc_1
 
-printSeparator "Install chaincode"
+printSeparator "Install chaincode on Org1"
 peer lifecycle chaincode install mycc.tar.gz
+peer lifecycle chaincode queryinstalled
 
+printSeparator "Approve chaincode on Org1"
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA --channelID apchannel --name mycc_1 --version "1.0" --sequence "1"
+
+
+switchIdentity "Org2" 8051 && echoCurrentFabricEnvironment && sleep 1
+
+printSeparator "Install chaincode on Org2"
+peer lifecycle chaincode install mycc.tar.gz
+peer lifecycle chaincode queryinstalled
+
+printSeparator "Approve chaincode on Org2"
+peer lifecycle chaincode approveformyorg -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA --channelID apchannel --name mycc_1 --version "1.0" --sequence "1"
+
+
+switchIdentity "Org1" 7051 && echoCurrentFabricEnvironment
+
+printSeparator "Check commit readiness (both orgs should be true)"
+peer lifecycle chaincode checkcommitreadiness --channelID apchannel --name mycc_1 --version "1.0" --sequence "1"
+
+printSeparator "Commit chaincode"
+peer lifecycle chaincode commit -C apchannel -n mycc_1 -o localhost:7050 --ordererTLSHostnameOverride orderer0.ap.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA --version "1.0"  --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE --peerAddresses localhost:7051 --sequence "1"
+
+printSeparator "Query comitted chaincodes"
+peer lifecycle chaincode querycommitted -C apchannel
