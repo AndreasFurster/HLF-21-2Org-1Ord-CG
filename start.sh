@@ -56,8 +56,7 @@ switchIdentity "Org1" 7051 && echoCurrentFabricEnvironment
 
 printSeparator "Package chaincode"
 peer lifecycle chaincode package mycc.tar.gz --path ./chaincode/ --lang node --label mycc_1
-mv ./mycc.tar.gz ./chaincode_packages
 
 printSeparator "Install chaincode"
-peer lifecycle chaincode install ./chaincode_packages/mycc.tar.gz
+peer lifecycle chaincode install mycc.tar.gz
 
