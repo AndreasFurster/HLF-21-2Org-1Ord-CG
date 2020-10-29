@@ -8,5 +8,14 @@ IMAGE_TAG=$IMAGETAG
 printSeparator "Shutdown Docker containers, remove volumes and orphans"
 docker-compose ${COMPOSE_FILES} down --volumes --remove-orphans
 
-printSeparator "Remove temporary files in project"
-git clean -xdf 
+printSeparator "Untracked files:"
+git clean -xdn 
+
+printSeparator "Are you sure you want to delete all files above (y/n)?"
+
+read answer
+if [ "$answer" != "${answer#[Yy]}" ] ;then
+  git clean -xdf
+else
+  echo "Skipped deleting untracked files."
+fi

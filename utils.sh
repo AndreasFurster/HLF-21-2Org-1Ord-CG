@@ -13,10 +13,11 @@ function switchIdentity() {
     export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/peers/peer0.${LOWER_MSP}.ap.com/tls/ca.crt
     export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/users/Admin@${LOWER_MSP}.ap.com/msp
     export CORE_PEER_ADDRESS=localhost:${PORT}
+
+    echoCurrentFabricEnvironment
 }
 
 function echoCurrentFabricEnvironment() {
-    echo -e "Current environment variables and identities:"
     echo -e "${YELLOW}CORE_PEER_TLS_ENABLED=${CORE_PEER_TLS_ENABLED}"
     echo -e "ORDERER_CA=${ORDERER_CA}"
     echo -e "CORE_PEER_LOCALMSPID=${CORE_PEER_LOCALMSPID}"
