@@ -3,7 +3,7 @@ Organizations:
     - &OrdererOrg
         Name: OrdererOrg
         ID: OrdererMSP
-        MSPDir: ../crypto-material/ordererOrganizations/ap.com/msp
+        MSPDir: ../generated/crypto-material/ordererOrganizations/ap.com/msp
         Policies:
             Readers:
                 Type: Signature
@@ -20,7 +20,7 @@ Organizations:
     - &Org1
         Name: Org1
         ID: Org1MSP
-        MSPDir: ../crypto-material/peerOrganizations/org1.ap.com/msp
+        MSPDir: ../generated/crypto-material/peerOrganizations/org1.ap.com/msp
         Policies:
             Readers:
                 Type: Signature
@@ -41,7 +41,7 @@ Organizations:
     - &Org2
         Name: Org2
         ID: Org2MSP
-        MSPDir: ../crypto-material/peerOrganizations/org2.ap.com/msp
+        MSPDir: ../generated/crypto-material/peerOrganizations/org2.ap.com/msp
         Policies:
             Readers:
                 Type: Signature
@@ -94,8 +94,8 @@ Orderer: &OrdererDefaults
         Consenters:
         - Host: orderer0.ap.com
           Port: 7050
-          ClientTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
-          ServerTLSCert: ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
+          ClientTLSCert: ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
+          ServerTLSCert: ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10

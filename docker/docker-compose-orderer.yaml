@@ -11,9 +11,9 @@ services:
     container_name: orderer0.ap.com
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     volumes:
-      - ../system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/msp:/var/hyperledger/orderer/msp
-      - ../crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/:/var/hyperledger/orderer/tls
+      - ../generated/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+      - ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/msp:/var/hyperledger/orderer/msp
+      - ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/:/var/hyperledger/orderer/tls
       - orderer0.ap.com:/var/hyperledger/production/orderer
     environment:
       # Orderer Specific settings
