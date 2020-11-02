@@ -8,10 +8,10 @@ function switchIdentity() {
     PORT=$2
 
     export CORE_PEER_TLS_ENABLED=true
-    export ORDERER_CA=${PWD}/generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/msp/tlscacerts/tlsca.ap.com-cert.pem
+    export ORDERER_CA=${PWD}/generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/msp/tlscacerts/tlsca.daisycon.sbc.andreasfurster.nl-cert.pem
     export CORE_PEER_LOCALMSPID=${ORG}MSP
-    export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/generated/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/peers/peer0.${LOWER_MSP}.ap.com/tls/ca.crt
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/generated/crypto-material/peerOrganizations/${LOWER_MSP}.ap.com/users/Admin@${LOWER_MSP}.ap.com/msp
+    export CORE_PEER_TLS_ROOTCERT_FILE=${PWD}/generated/crypto-material/peerOrganizations/${LOWER_MSP}.sbc.andreasfurster.nl/peers/peer0.${LOWER_MSP}.sbc.andreasfurster.nl/tls/ca.crt
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/generated/crypto-material/peerOrganizations/${LOWER_MSP}.sbc.andreasfurster.nl/users/Admin@${LOWER_MSP}.sbc.andreasfurster.nl/msp
     export CORE_PEER_ADDRESS=localhost:${PORT}
 
     echoCurrentFabricEnvironment

@@ -1,6 +1,6 @@
 PeerOrgs:
-  - Name: Org2
-    Domain: org2.ap.com
+  - Name: Coolblue
+    Domain: coolblue.sbc.andreasfurster.nl
     Template:
       Count: 1
       SANS:

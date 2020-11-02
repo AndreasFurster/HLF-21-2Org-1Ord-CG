@@ -1,0 +1,42 @@
+version: '3'
+
+volumes:
+  peer0.tweakers.sbc.andreasfurster.nl:
+
+networks:
+  apnet:
+
+services:
+  peer0.tweakers.sbc.andreasfurster.nl:
+    networks:
+      - apnet
+    container_name: peer0.tweakers.sbc.andreasfurster.nl
+    image: hyperledger/fabric-peer:$IMAGE_TAG
+    volumes:
+      - /var/run/:/host/var/run/
+      - ../generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/peers/peer0.tweakers.sbc.andreasfurster.nl/msp:/etc/hyperledger/fabric/msp
+      - ../generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/peers/peer0.tweakers.sbc.andreasfurster.nl/tls:/etc/hyperledger/fabric/tls
+      - peer0.tweakers.sbc.andreasfurster.nl:/var/hyperledger/production    
+    environment:
+      # Generic peer variables
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock 
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=${COMPOSE_PROJECT_NAME}_apnet
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Specific peer variables
+      - CORE_PEER_ID=peer0.tweakers.sbc.andreasfurster.nl
+      - CORE_PEER_ADDRESS=peer0.tweakers.sbc.andreasfurster.nl:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.tweakers.sbc.andreasfurster.nl:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.tweakers.sbc.andreasfurster.nl:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.tweakers.sbc.andreasfurster.nl:8051
+      - CORE_PEER_LOCALMSPID=TweakersMSP
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 8051:8051
+      

@@ -1,20 +1,20 @@
 version: "3"
 
 volumes:
-  orderer0.ap.com:
+  orderer0.daisycon.sbc.andreasfurster.nl:
 
 networks:
   apnet:
 
 services:
-  orderer0.ap.com:
-    container_name: orderer0.ap.com
+  orderer0.daisycon.sbc.andreasfurster.nl:
+    container_name: orderer0.daisycon.sbc.andreasfurster.nl
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     volumes:
       - ../generated/system-genesis-block/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/msp:/var/hyperledger/orderer/msp
-      - ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/:/var/hyperledger/orderer/tls
-      - orderer0.ap.com:/var/hyperledger/production/orderer
+      - ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/msp:/var/hyperledger/orderer/msp
+      - ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/:/var/hyperledger/orderer/tls
+      - orderer0.daisycon.sbc.andreasfurster.nl:/var/hyperledger/production/orderer
     environment:
       # Orderer Specific settings
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0

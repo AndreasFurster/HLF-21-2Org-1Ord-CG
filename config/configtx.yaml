@@ -3,7 +3,7 @@ Organizations:
     - &OrdererOrg
         Name: OrdererOrg
         ID: OrdererMSP
-        MSPDir: ../generated/crypto-material/ordererOrganizations/ap.com/msp
+        MSPDir: ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
@@ -15,48 +15,48 @@ Organizations:
                 Type: Signature
                 Rule: "OR('OrdererMSP.admin')"
         OrdererEndpoints:
-            - orderer0.ap.com:7050
+            - orderer0.daisycon.sbc.andreasfurster.nl:7050
 
-    - &Org1
-        Name: Org1
-        ID: Org1MSP
-        MSPDir: ../generated/crypto-material/peerOrganizations/org1.ap.com/msp
+    - &Coolblue
+        Name: Coolblue
+        ID: CoolblueMSP
+        MSPDir: ../generated/crypto-material/peerOrganizations/coolblue.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org1MSP.member')"
+                Rule: "OR('CoolblueMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org1MSP.member')"
+                Rule: "OR('CoolblueMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org1MSP.admin')"
+                Rule: "OR('CoolblueMSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org1MSP.member')"
+                Rule: "OR('CoolblueMSP.member')"
         AnchorPeers:
-            - Host: peer0.org1.ap.com
+            - Host: peer0.coolblue.sbc.andreasfurster.nl
               Port: 7051
 
-    - &Org2
-        Name: Org2
-        ID: Org2MSP
-        MSPDir: ../generated/crypto-material/peerOrganizations/org2.ap.com/msp
+    - &Tweakers
+        Name: Tweakers
+        ID: TweakersMSP
+        MSPDir: ../generated/crypto-material/peerOrganizations/tweakers.sbc.andreasfurster.nl/msp
         Policies:
             Readers:
                 Type: Signature
-                Rule: "OR('Org2MSP.member')"
+                Rule: "OR('TweakersMSP.member')"
             Writers:
                 Type: Signature
-                Rule: "OR('Org2MSP.member')"
+                Rule: "OR('TweakersMSP.member')"
             Admins:
                 Type: Signature
-                Rule: "OR('Org2MSP.admin')"
+                Rule: "OR('TweakersMSP.admin')"
             Endorsement:
                 Type: Signature
-                Rule: "OR('Org2MSP.member')"
+                Rule: "OR('TweakersMSP.member')"
         AnchorPeers:
-            - Host: peer0.org2.ap.com
+            - Host: peer0.tweakers.sbc.andreasfurster.nl
               Port: 8051
 
 Capabilities:
@@ -92,10 +92,10 @@ Orderer: &OrdererDefaults
     OrdererType: etcdraft
     EtcdRaft:
         Consenters:
-        - Host: orderer0.ap.com
+        - Host: orderer0.daisycon.sbc.andreasfurster.nl
           Port: 7050
-          ClientTLSCert: ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
-          ServerTLSCert: ../generated/crypto-material/ordererOrganizations/ap.com/orderers/orderer0.ap.com/tls/server.crt
+          ClientTLSCert: ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/server.crt
+          ServerTLSCert: ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/orderers/orderer0.daisycon.sbc.andreasfurster.nl/tls/server.crt
     BatchTimeout: 2s
     BatchSize:
         MaxMessageCount: 10
@@ -142,15 +142,15 @@ Profiles:
         Consortiums:
             ApConsortium:
                 Organizations:
-                    - *Org1
-                    - *Org2
+                    - *Coolblue
+                    - *Tweakers
     ApChannelProfile:
         Consortium: ApConsortium
         <<: *ChannelDefaults
         Application:
             <<: *ApplicationDefaults
             Organizations:
-                - *Org1
-                - *Org2
+                - *Coolblue
+                - *Tweakers
             Capabilities:
                 <<: *ApplicationCapabilities

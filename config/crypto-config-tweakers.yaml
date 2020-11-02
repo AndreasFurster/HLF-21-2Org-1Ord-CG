@@ -1,6 +1,6 @@
 PeerOrgs:
-  - Name: Org1
-    Domain: org1.ap.com
+  - Name: Tweakers
+    Domain: tweakers.sbc.andreasfurster.nl
     Template:
       Count: 1
       SANS:

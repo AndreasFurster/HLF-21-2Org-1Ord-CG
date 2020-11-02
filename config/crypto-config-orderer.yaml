@@ -1,6 +1,6 @@
 OrdererOrgs:
-  - Name: Orderer
-    Domain: ap.com
+  - Name: Daisycon
+    Domain: daisycon.sbc.andreasfurster.nl
     Template:
       Count: 1
       SANS:

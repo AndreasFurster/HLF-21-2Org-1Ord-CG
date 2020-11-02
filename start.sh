@@ -4,14 +4,17 @@ export FABRIC_CFG_PATH=${PWD}/config
 
 . ./utils.sh
 
-printSeparator "Generate crypto-material for Org1"
-cryptogen generate --config=./config/crypto-config-org1.yaml --output=./generated/crypto-material
+printSeparator "Generate crypto-material for Coolblue"
+cryptogen generate --config=./config/crypto-config-coolblue.yaml --output=./generated/crypto-material
 
-printSeparator "Generate crypto-material for Org2"
-cryptogen generate --config=./config/crypto-config-org2.yaml --output=./generated/crypto-material
+printSeparator "Generate crypto-material for Tweakers"
+cryptogen generate --config=./config/crypto-config-tweakers.yaml --output=./generated/crypto-material
 
 printSeparator "Generate crypto-material for Orderer"
 cryptogen generate --config=./config/crypto-config-orderer.yaml --output=./generated/crypto-material
+
+read  -n 1 -p "Input Selection:" mainmenuinput
+
 
 printSeparator "Create Genesis-Block"
 configtxgen \
@@ -22,9 +25,11 @@ configtxgen \
 
 printSeparator "Start Network within Docker Containers"
 docker-compose \
-  --file ./docker/docker-compose-orderer.yaml \
-  --file ./docker/docker-compose-org1.yaml \
-  --file ./docker/docker-compose-org2.yaml up -d
+  --file ./docker/docker-compose-orderer.yaml up -d
+  # --file ./docker/docker-compose-coolblue.yaml \
+  # --file ./docker/docker-compose-tweakers.yaml 
+
+exit 1
 
 printSeparator "Create Channel Transaction"
 configtxgen \
@@ -37,23 +42,23 @@ printSeparator "Create Anchor Peers Update for Org 1"
 configtxgen \
   -profile ApChannelProfile \
   -configPath ${PWD}/config \
-  -outputAnchorPeersUpdate ./generated/channel-artifacts/Org1MSPanchors.tx \
+  -outputAnchorPeersUpdate ./generated/channel-artifacts/CoolblueMSPanchors.tx \
   -channelID apchannel \
-  -asOrg Org1
+  -asOrg Coolblue
 
 printSeparator "Create Anchor Peers Update for Org 2"
 configtxgen \
   -profile ApChannelProfile \
   -configPath ${PWD}/config \
-  -outputAnchorPeersUpdate ./generated/channel-artifacts/Org2MSPanchors.tx \
+  -outputAnchorPeersUpdate ./generated/channel-artifacts/TweakersMSPanchors.tx \
   -channelID apchannel \
-  -asOrg Org2
+  -asOrg Tweakers
 
 printSeparator "Wait 3 seconds for network to come up"
 sleep 3
 
-printSeparator "Set Identity to Org1"
-switchIdentity "Org1" 7051
+printSeparator "Set Identity to Coolblue"
+switchIdentity "Coolblue" 7051
 
 printSeparator "Create channel"
 peer channel create \
@@ -61,43 +66,43 @@ peer channel create \
   --file ./generated/channel-artifacts/apchannel.tx \
   --outputBlock ./generated/channel-artifacts/apchannel.block \
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA
 
-printSeparator "Join Org1 to channel"
+printSeparator "Join Coolblue to channel"
 peer channel join \
   --blockpath ./generated/channel-artifacts/apchannel.block 
 
 sleep 1
 
-printSeparator "Update Anchor Peers as Org1"
+printSeparator "Update Anchor Peers as Coolblue"
 peer channel update \
   --channelID apchannel \
-  --file ./generated/channel-artifacts/Org1MSPanchors.tx \
+  --file ./generated/channel-artifacts/CoolblueMSPanchors.tx \
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA
 
-printSeparator "Set Identity to Org2"
-switchIdentity "Org2" 8051
+printSeparator "Set Identity to Tweakers"
+switchIdentity "Tweakers" 8051
 
-printSeparator "Join Org2 to channel"
+printSeparator "Join Tweakers to channel"
 peer channel join \
   --blockpath ./generated/channel-artifacts/apchannel.block
 
-printSeparator "Update Anchor Peers as Org2"
+printSeparator "Update Anchor Peers as Tweakers"
 peer channel update \
   --channelID apchannel \
-  --file ./generated/channel-artifacts/Org2MSPanchors.tx \
+  --file ./generated/channel-artifacts/TweakersMSPanchors.tx \
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA
 
-printSeparator "Set Identity to Org1"
-switchIdentity "Org1" 7051
+printSeparator "Set Identity to Coolblue"
+switchIdentity "Coolblue" 7051
 
 printSeparator "Install node modules for chaincode"
 cd ./chaincode/
@@ -111,40 +116,40 @@ peer lifecycle chaincode package ./generated/chaincode-packages/mycc.tar.gz \
   --lang node \
   --label mycc_1
 
-printSeparator "Install chaincode on Org1"
+printSeparator "Install chaincode on Coolblue"
 peer lifecycle chaincode install ./generated/chaincode-packages/mycc.tar.gz
 peer lifecycle chaincode queryinstalled
 
-printSeparator "Approve chaincode on Org1"
+printSeparator "Approve chaincode on Coolblue"
 peer lifecycle chaincode approveformyorg \
   --channelID apchannel \
   --name mycc_1 \
   --version "1.0" \
   --sequence "1"\
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA 
 
-switchIdentity "Org2" 8051
+switchIdentity "Tweakers" 8051
 
-printSeparator "Install chaincode on Org2"
+printSeparator "Install chaincode on Tweakers"
 peer lifecycle chaincode install ./generated/chaincode-packages/mycc.tar.gz
 peer lifecycle chaincode queryinstalled
 
-printSeparator "Approve chaincode on Org2"
+printSeparator "Approve chaincode on Tweakers"
 peer lifecycle chaincode approveformyorg \
   --channelID apchannel \
   --name mycc_1 \
   --version "1.0" \
   --sequence "1"\
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA 
 
 
-switchIdentity "Org1" 7051
+switchIdentity "Coolblue" 7051
 
 printSeparator "Check commit readiness (both orgs should be true)"
 peer lifecycle chaincode checkcommitreadiness \
@@ -162,7 +167,7 @@ peer lifecycle chaincode commit \
   --peerAddresses localhost:7051 \
   --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE \
   --orderer localhost:7050 \
-  --ordererTLSHostnameOverride orderer0.ap.com \
+  --ordererTLSHostnameOverride orderer0.daisycon.sbc.andreasfurster.nl \
   --tls $CORE_PEER_TLS_ENABLED \
   --cafile $ORDERER_CA 
 
