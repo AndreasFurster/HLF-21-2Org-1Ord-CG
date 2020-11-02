@@ -1,7 +1,7 @@
 Organizations:
 
-    - &OrdererOrg
-        Name: OrdererOrg
+    - &Daisycon
+        Name: Daisycon
         ID: OrdererMSP
         MSPDir: ../generated/crypto-material/ordererOrganizations/daisycon.sbc.andreasfurster.nl/msp
         Policies:
@@ -136,7 +136,7 @@ Profiles:
         Orderer:
             <<: *OrdererDefaults
             Organizations:
-                - *OrdererOrg
+                - *Daisycon
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:

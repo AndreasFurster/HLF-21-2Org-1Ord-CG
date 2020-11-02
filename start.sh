@@ -11,10 +11,7 @@ printSeparator "Generate crypto-material for Tweakers"
 cryptogen generate --config=./config/crypto-config-tweakers.yaml --output=./generated/crypto-material
 
 printSeparator "Generate crypto-material for Orderer"
-cryptogen generate --config=./config/crypto-config-orderer.yaml --output=./generated/crypto-material
-
-read  -n 1 -p "Input Selection:" mainmenuinput
-
+cryptogen generate --config=./config/crypto-config-daisycon.yaml --output=./generated/crypto-material
 
 printSeparator "Create Genesis-Block"
 configtxgen \
@@ -25,11 +22,9 @@ configtxgen \
 
 printSeparator "Start Network within Docker Containers"
 docker-compose \
-  --file ./docker/docker-compose-orderer.yaml up -d
-  # --file ./docker/docker-compose-coolblue.yaml \
-  # --file ./docker/docker-compose-tweakers.yaml 
-
-exit 1
+  --file ./docker/docker-compose-daisycon.yaml \
+  --file ./docker/docker-compose-coolblue.yaml \
+  --file ./docker/docker-compose-tweakers.yaml up -d
 
 printSeparator "Create Channel Transaction"
 configtxgen \

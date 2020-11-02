@@ -2,7 +2,7 @@
 
 . ./utils.sh
 
-COMPOSE_FILES="-f ./docker/docker-compose-coolblue.yaml -f ./docker/docker-compose-tweakers.yaml -f ./docker/docker-compose-orderer.yaml"
+COMPOSE_FILES="-f ./docker/docker-compose-coolblue.yaml -f ./docker/docker-compose-tweakers.yaml -f ./docker/docker-compose-daisycon.yaml"
 IMAGE_TAG=$IMAGETAG 
 
 printSeparator "Shutdown Docker containers, remove volumes and orphans"
