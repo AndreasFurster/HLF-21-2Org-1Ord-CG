@@ -169,3 +169,7 @@ peer lifecycle chaincode commit \
 printSeparator "Query comitted chaincodes"
 peer lifecycle chaincode querycommitted \
   --channelID apchannel
+
+printSeparator "Run the API within Docker Containers"
+cd ./application
+docker-compose up
